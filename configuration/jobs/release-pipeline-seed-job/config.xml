@@ -39,7 +39,25 @@
     <concurrentBuild>false</concurrentBuild>
     <builders>
         <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.51">
-            <scriptText>pipelineJob("${jenkins_job_name}") { definition{ cpsScm { scm{ git{ remote { url("${git_url}") } branch("${git_ref}") } } scriptPath('ReleaseJenkinsfile.groovy') } } environmentVariables { env('OPENSHIFT_PASSWORD','admin') env('SKIP_TLS','true') } }</scriptText>
+            <scriptText>pipelineJob("${jenkins_job_name}") {
+              definition{
+                cpsScm {
+                  scm{ 
+                    git{
+                      remote {
+                        url("${git_url}")
+                      }
+                      branch("${git_ref}")
+                    }
+                  }
+                  scriptPath('ReleaseJenkinsfile.groovy')
+                }
+              }
+              environmentVariables {
+                env('OPENSHIFT_PASSWORD','admin')
+                env('SKIP_TLS','true')
+              }
+            }</scriptText>
             <usingScriptText>true</usingScriptText>
             <ignoreExisting>false</ignoreExisting>
             <ignoreMissingFiles>false</ignoreMissingFiles>
