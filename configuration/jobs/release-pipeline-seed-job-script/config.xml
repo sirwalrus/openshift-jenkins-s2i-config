@@ -13,14 +13,6 @@
         <hudson.model.ParametersDefinitionProperty>
             <parameterDefinitions>
                 <hudson.model.StringParameterDefinition>
-                    <name>git_url</name>
-                    <description/>
-                </hudson.model.StringParameterDefinition>
-                <hudson.model.StringParameterDefinition>
-                    <name>git_ref</name>
-                    <description/>
-                </hudson.model.StringParameterDefinition>
-                <hudson.model.StringParameterDefinition>
                     <name>application_name</name>
                     <description/>
                 </hudson.model.StringParameterDefinition>
@@ -48,7 +40,7 @@
               definition{
                 cps {
                   script (
-                  "dynamicPipeline.withHttpConfiguration('${config_url}').withApplicationName('${application_name}').generateAndExecutePipelineScript()"
+                  "dynamicPipeline.withApiToken(OPENSHIFT_API_TOKEN).withHttpConfiguration('${config_url}').withApplicationName('${application_name}').generateAndExecutePipelineScript()"
                   )
                 }
               }
