@@ -28,6 +28,10 @@
                     <name>config_url</name>
                     <description/>
                 </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>openshift_api_token</name>
+                    <description/>
+                </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
         </hudson.model.ParametersDefinitionProperty>
     </properties>
@@ -56,7 +60,7 @@
                   }
                 }
                 environmentVariables {
-                  env('OPENSHIFT_PASSWORD','admin')
+                  env('OPENSHIFT_API_TOKEN',"${openshift_api_token}")
                   env('SKIP_TLS','true')
                 }
               }

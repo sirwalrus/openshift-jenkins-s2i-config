@@ -15,22 +15,22 @@
                 <hudson.model.StringParameterDefinition>
                     <name>git_url</name>
                     <description/>
-                    <defaultValue>https://github.com/sherl0cks/infographic.git</defaultValue>
                 </hudson.model.StringParameterDefinition>
                 <hudson.model.StringParameterDefinition>
                     <name>git_ref</name>
                     <description/>
-                    <defaultValue>dynamic-pipeline-support</defaultValue>
                 </hudson.model.StringParameterDefinition>
                 <hudson.model.StringParameterDefinition>
                     <name>application_name</name>
                     <description/>
-                    <defaultValue>infographic</defaultValue>
                 </hudson.model.StringParameterDefinition>
                 <hudson.model.StringParameterDefinition>
                     <name>config_url</name>
                     <description/>
-                    <defaultValue>http://api-mayas-playground.apps.env2-1.etl.rht-labs.com/labsEnv.json</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>openshift_api_token</name>
+                    <description/>
                 </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
         </hudson.model.ParametersDefinitionProperty>
@@ -48,12 +48,12 @@
               definition{
                 cps {
                   script (
-                  "dynamicPipeline.withReleaseType().withHttpConfiguration('${config_url}').withApplicationName('${application_name}').generateAndExecutePipelineScript()"
+                  "dynamicPipeline.withHttpConfiguration('${config_url}').withApplicationName('${application_name}').generateAndExecutePipelineScript()"
                   )
                 }
               }
               environmentVariables {
-                env('OPENSHIFT_PASSWORD','admin')
+                env('OPENSHIFT_API_TOKEN',"${openshift_api_token}")
                 env('SKIP_TLS','true')
               }
             }</scriptText>
