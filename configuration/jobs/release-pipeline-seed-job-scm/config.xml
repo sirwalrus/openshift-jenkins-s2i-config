@@ -15,22 +15,18 @@
                 <hudson.model.StringParameterDefinition>
                     <name>git_url</name>
                     <description/>
-                    <defaultValue>https://github.com/sherl0cks/infographic.git</defaultValue>
                 </hudson.model.StringParameterDefinition>
                 <hudson.model.StringParameterDefinition>
                     <name>git_ref</name>
                     <description/>
-                    <defaultValue>dynamic-pipeline-support</defaultValue>
                 </hudson.model.StringParameterDefinition>
                 <hudson.model.StringParameterDefinition>
                     <name>application_name</name>
                     <description/>
-                    <defaultValue>infographic</defaultValue>
                 </hudson.model.StringParameterDefinition>
                 <hudson.model.StringParameterDefinition>
                     <name>config_url</name>
                     <description/>
-                    <defaultValue>http://api-mayas-playground.apps.env2-1.etl.rht-labs.com/labsEnv.json</defaultValue>
                 </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
         </hudson.model.ParametersDefinitionProperty>
@@ -44,19 +40,27 @@
     <concurrentBuild>false</concurrentBuild>
     <builders>
         <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.51">
-            <scriptText>pipelineJob("${application_name}-release-pipeline") {
-              definition{
-                cps {
-                  script (
-                  "dynamicPipeline.withReleaseType().withHttpConfiguration('${config_url}').withApplicationName('${application_name}').generateAndExecutePipelineScript()"
-                  )
+            <scriptText>
+              pipelineJob("${jenkins_job_name}") {
+                definition{
+                  cpsScm {
+                    scm{
+                      git{
+                        remote {
+                          url("${git_url}")
+                        }
+                        branch("${git_ref}")
+                      }
+                    }
+                    scriptPath('ReleaseJenkinsfile.groovy')
+                  }
+                }
+                environmentVariables {
+                  env('OPENSHIFT_PASSWORD','admin')
+                  env('SKIP_TLS','true')
                 }
               }
-              environmentVariables {
-                env('OPENSHIFT_PASSWORD','admin')
-                env('SKIP_TLS','true')
-              }
-            }</scriptText>
+            </scriptText>
             <usingScriptText>true</usingScriptText>
             <ignoreExisting>false</ignoreExisting>
             <ignoreMissingFiles>false</ignoreMissingFiles>

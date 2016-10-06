@@ -23,9 +23,14 @@
                     <defaultValue>dynamic-pipeline-support</defaultValue>
                 </hudson.model.StringParameterDefinition>
                 <hudson.model.StringParameterDefinition>
-                    <name>jenkins_job_name</name>
+                    <name>application_name</name>
                     <description/>
-                    <defaultValue>new-release-pipeline</defaultValue>
+                    <defaultValue>infographic</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>config_url</name>
+                    <description/>
+                    <defaultValue>http://api-mayas-playground.apps.env2-1.etl.rht-labs.com/labsEnv.json</defaultValue>
                 </hudson.model.StringParameterDefinition>
             </parameterDefinitions>
         </hudson.model.ParametersDefinitionProperty>
@@ -39,18 +44,12 @@
     <concurrentBuild>false</concurrentBuild>
     <builders>
         <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.51">
-            <scriptText>pipelineJob("${jenkins_job_name}") {
+            <scriptText>pipelineJob("${application_name}-release-pipeline") {
               definition{
-                cpsScm {
-                  scm{ 
-                    git{
-                      remote {
-                        url("${git_url}")
-                      }
-                      branch("${git_ref}")
-                    }
-                  }
-                  scriptPath('ReleaseJenkinsfile.groovy')
+                cps {
+                  script (
+                  "dynamicPipeline.withReleaseType().withHttpConfiguration('${config_url}').withApplicationName('${application_name}').generateAndExecutePipelineScript()"
+                  )
                 }
               }
               environmentVariables {
