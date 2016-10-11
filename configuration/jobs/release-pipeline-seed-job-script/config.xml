@@ -42,6 +42,7 @@
                   script (
                   "dynamicPipeline.withApiToken(OPENSHIFT_API_TOKEN).withHttpConfiguration('${config_url}').withApplicationName('${application_name}').generateAndExecutePipelineScript()"
                   )
+                  sandbox(true)
                 }
               }
               environmentVariables {

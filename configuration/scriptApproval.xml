@@ -7,6 +7,7 @@
     <string>method com.rhc.dynamic.pipeline.DynamicPipelineFactory withApplicationName java.lang.String</string>
     <string>method com.rhc.dynamic.pipeline.DynamicPipelineFactory withHttpConfiguration java.lang.String</string>
     <string>method com.rhc.dynamic.pipeline.DynamicPipelineFactory withReleaseType</string>
+    <string>method com.rhc.dynamic.pipeline.DynamicPipelineFactory withApiToken java.lang.String</string>
     <string>method com.rhc.dynamic.pipeline.DynamicPipelineFactory withConfigurationFile java.lang.String</string>
     <string>method groovy.lang.GroovyObject invokeMethod java.lang.String java.lang.Object</string>
     <string>method groovy.lang.GroovyObject getProperty java.lang.String</string>
