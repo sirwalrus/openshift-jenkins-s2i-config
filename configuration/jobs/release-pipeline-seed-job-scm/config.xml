@@ -28,10 +28,10 @@
                     <name>jenkins_job_name</name>
                     <description/>
                 </hudson.model.StringParameterDefinition>
-                <hudson.model.StringParameterDefinition>
+                <hudson.model.PasswordParameterDefinition>
                     <name>openshift_api_token</name>
                     <description/>
-                </hudson.model.StringParameterDefinition>
+                </hudson.model.PasswordParameterDefinition>
             </parameterDefinitions>
         </hudson.model.ParametersDefinitionProperty>
     </properties>
