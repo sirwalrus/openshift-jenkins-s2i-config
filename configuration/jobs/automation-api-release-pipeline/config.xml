@@ -53,25 +53,17 @@ OPENSHIFT_API_HOST=${openshift_api_host}</propertiesContent>
         sh &quot;${toolHome}/bin/mvn clean install&quot;
     }
 
-
     stage (&apos;Build Image and Deploy to Dev&apos;) {
         echo &apos;Found label &quot;provider=fabric8&quot;, we are generating the s2i binary build commands&apos;
-        sh &apos;oc login $OPENSHIFT_API_HOST --token=$OPENSHIFT_API_TOKEN --insecure-skip-tls-verify&apos;
+        env.TRIMMED_OPENSHIFT_API_TOKEN = env.OPENSHIFT_API_TOKEN.replaceAll("\\s","")
+        sh &apos;oc login $OPENSHIFT_API_HOST --token=$TRIMMED_OPENSHIFT_API_TOKEN --insecure-skip-tls-verify&apos;
         sh &apos;oc start-build automation-api --from-dir=. --follow -n labs-api-dev&apos;  
     }
 
-
-    stage (&apos;Deploy to labs-api-uat&apos;) {
-        input &apos;Deploy to labs-api-uat?&apos;
-        openshiftTag apiURL: &quot;$OPENSHIFT_API_HOST&quot;, authToken: &quot;$OPENSHIFT_API_TOKEN&quot;, destStream: &apos;automation-api&apos;, destTag: &apos;latest&apos;, destinationAuthToken: &quot;$OPENSHIFT_API_TOKEN&quot;, destinationNamespace: &apos;labs-api-uat&apos;, namespace: &apos;labs-api-dev&apos;, srcStream: &apos;automation-api&apos;, srcTag: &apos;latest&apos;
-        openshiftVerifyDeployment apiURL: &quot;$OPENSHIFT_API_HOST&quot;, authToken: &quot;$OPENSHIFT_API_TOKEN&quot;, depCfg: &apos;automation-api&apos;, namespace: &apos;labs-api-uat&apos;
-    }
-
-
     stage (&apos;Deploy to labs-api-delivery&apos;) {
         input &apos;Deploy to labs-api-delivery?&apos;
-        openshiftTag apiURL: &quot;$OPENSHIFT_API_HOST&quot;, authToken: &quot;$OPENSHIFT_API_TOKEN&quot;, destStream: &apos;automation-api&apos;, destTag: &apos;latest&apos;, destinationAuthToken: &quot;$OPENSHIFT_API_TOKEN&quot;, destinationNamespace: &apos;labs-api-delivery&apos;, namespace: &apos;labs-api-uat&apos;, srcStream: &apos;automation-api&apos;, srcTag: &apos;latest&apos;
-        openshiftVerifyDeployment apiURL: &quot;$OPENSHIFT_API_HOST&quot;, authToken: &quot;$OPENSHIFT_API_TOKEN&quot;, depCfg: &apos;automation-api&apos;, namespace: &apos;labs-api-delivery&apos;
+        openshiftTag apiURL: &quot;$OPENSHIFT_API_HOST&quot;, authToken: &quot;$TRIMMED_OPENSHIFT_API_TOKEN&quot;, destStream: &apos;automation-api&apos;, destTag: &apos;latest&apos;, destinationAuthToken: &quot;$TRIMMED_OPENSHIFT_API_TOKEN&quot;, destinationNamespace: &apos;labs-api-delivery&apos;, namespace: &apos;labs-api-dev&apos;, srcStream: &apos;automation-api&apos;, srcTag: &apos;latest&apos;
+        openshiftVerifyDeployment apiURL: &quot;$OPENSHIFT_API_HOST&quot;, authToken: &quot;$TRIMMED_OPENSHIFT_API_TOKEN&quot;, depCfg: &apos;automation-api&apos;, namespace: &apos;labs-api-delivery&apos;
     }
 }
 </script>
