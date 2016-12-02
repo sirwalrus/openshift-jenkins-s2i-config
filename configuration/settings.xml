@@ -1,0 +1,20 @@
+<!-- 
+This file is not in a .m2 directory because openshift/jenkins does not support configuration in hidden folders
+https://github.com/openshift/jenkins/issues/212
+-->
+<settings>
+  <mirrors>
+    <mirror>
+      <id>labs-group</id>
+      <url>http://nexus.artifact-repository-delivery.svc.cluster.local:8081/repository/labs-group/</url>
+      <mirrorOf>*</mirrorOf>
+    </mirror>
+  </mirrors>
+  <servers>
+    <server>
+      <id>nexus</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+  </servers>
+</settings>
