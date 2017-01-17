@@ -1,18 +1,25 @@
 #!/usr/bin/env groovy
 
-// This script doesn't parse cli args right now, you'll need to modify it directly
-
-String user = 'admin'
-String password = 'admin'
-String apiHost = 'localhost:8080'
+// resources used:
 // http://stackoverflow.com/questions/9815273/how-to-get-a-list-of-installed-jenkins-plugins-with-name-and-version-pair
-String apiResource = 'pluginManager/api/json'
 // http://stackoverflow.com/questions/17236710/jenkins-rest-api-using-tree-to-reference-specific-item-in-json-array
-String apiQueryString = 'depth=1&tree=plugins[shortName,version]'
+
+String user = System.console().readLine 'Enter Jenkins user:  '
+String password = System.console().readLine 'Enter Jenkins password:  '
+String apiHost = System.console().readLine 'Enter Jenkins hostname (https assumed, only include hostname here):  '
 
 
-def json = new URL(buildUrl(user,password, apiHost, apiResource, apiQueryString)).getText()
+def process = "curl -k -g https://${user}:${password}@${apiHost}/pluginManager/api/json?depth=1&tree=plugins[shortName,version]".execute()
+def out = new StringBuffer()
+def err = new StringBuffer()
+process.consumeProcessOutput( out, err )
+process.waitFor()
+def json = out.toString()
+if ( json == null || json == ""){
+	throw new GroovyRuntimeException( "something went wrong, please verify your inputs" )
+}
 def result = new groovy.json.JsonSlurper().parseText( json )
+println result
 new File('plugins.txt').write buildPluginsString(result)
 
 
@@ -20,9 +27,6 @@ new File('plugins.txt').write buildPluginsString(result)
 /*********************
  * Everything below here is a helper function
  *********************/
-def buildUrl(String user, String password, String apiHost, String apiResource, String apiQueryString){
-	return "http://${user}:${password}@${apiHost}/${apiResource}?${apiQueryString}"
-}
 
 def buildPluginsString(def result){
 	def sb = new StringBuilder()
@@ -30,7 +34,7 @@ def buildPluginsString(def result){
 		// check if the dependency was pulled from a private .m2
 		// if true, this dependnecy should be added as a binary in the plugins directory
 		if (!plugin.version.contains('private')){
-			sb.append "${plugin.shortName} ${plugin.version}\n"
+			sb.append "${plugin.shortName}:${plugin.version}\n"
 		}
 	}
 	return sb.toString()
