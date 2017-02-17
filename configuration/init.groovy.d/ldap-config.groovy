@@ -23,6 +23,4 @@ if(server == null) {
   Jenkins.instance.setSecurityRealm(ldapRealm)
   Jenkins.instance.setAuthorizationStrategy(new FullControlOnceLoggedInAuthorizationStrategy())
   Jenkins.instance.save()
-
 }
-
