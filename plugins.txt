@@ -89,3 +89,4 @@ workflow-remote-loader:1.4
 workflow-scm-step:2.3
 workflow-step-api:2.9
 workflow-support:2.13
+ssh-slaves:1.13
