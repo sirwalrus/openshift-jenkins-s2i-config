@@ -3,7 +3,7 @@
 def json = new File('out.json').text
 def result = new groovy.json.JsonSlurper().parseText( json )
 println result
-new File('plugins.txt').write buildPluginsString(result)
+new File('../plugins.txt').write buildPluginsString(result)
 
 
 
