@@ -88,3 +88,4 @@ blueocean-dashboard:1.0.1
 blueocean:1.0.1
 pipeline-github-lib:1.0
 github-organization-folder:1.6
+sonar:2.6.1
