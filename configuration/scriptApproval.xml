@@ -8,6 +8,10 @@ https://wiki.jenkins-ci.org/display/JENKINS/Script+Security+Plugin
   <approvedScriptHashes/>
   <approvedSignatures>
     <string>method java.lang.String isEmpty</string>
+    <string>method hudson.plugins.git.BranchSpec getName</string>
+    <string>method hudson.plugins.git.GitSCM getBranches</string>
+    <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods drop java.lang.CharSequence int</string>
+    <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods reverse java.lang.String</string>
   </approvedSignatures>
   <aclApprovedSignatures/>
   <approvedClasspathEntries/>
