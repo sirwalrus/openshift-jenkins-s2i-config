@@ -9,6 +9,11 @@ Jenkins.instance.items.findAll{ job -> job.name == 'OpenShift Sample'}.each{ job
 
 // create a default build monitor view that includes all jobs
 // https://wiki.jenkins-ci.org/display/JENKINS/Build+Monitor+Plugin
-view = new BuildMonitorView('monitor','Build Monitor')
-view.setIncludeRegex('.*')
-Jenkins.instance.addView(view)
+if ( Jenkins.instance.views.findAll{ view -> view instanceof com.smartcodeltd.jenkinsci.plugins.buildmonitor.BuildMonitorView }.size == 0){
+  view = new BuildMonitorView('Build Monitor','Build Monitor')
+  view.setIncludeRegex('.*')
+  Jenkins.instance.addView(view)
+}
+
+// This is a helper to delete views in the Jenkins script console if needed
+// Jenkins.instance.views.findAll{ view -> view instanceof com.smartcodeltd.jenkinsci.plugins.buildmonitor.BuildMonitorView }.each{ view -> Jenkins.instance.deleteView( view ) }
